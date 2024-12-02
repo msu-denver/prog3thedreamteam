@@ -1,0 +1,121 @@
+Store,Category,Item,Description, Price,Qty,Magic
+Arcadia Bay,Burgers,Epic Stack,"A double beef patty with epic layers of crispy bacon, melted cheddar, and our secret Epic Sauce.",12.99,0,No
+Arcadia Bay,Burgers,Avatar Avocado,A chicken burger with creamy avocado spread and sun-dried tomato mayo.,12.99,41,No
+Arcadia Bay,Burgers,Retro Reuben,"Corned beef, sauerkraut, Swiss cheese, and thousand island dressing on a rye bun.",11.99,21,No
+Arcadia Bay,Burgers,Stealth Mode Mushroom,A grilled portobello cap with smoked gouda and garlic aioli. Lowers visible presence of customer for 10 minutes.,13.99,71,Yes
+Arcadia Bay,Burgers,Pixel Pepperjack,"A spicy beef burger with pepperjack cheese, jalapenos, and pixelated salsa.",13.99,42,No
+Arcadia Bay,Burgers,Next Level Veggie,"A plant-based patty with grilled eggplant, zucchini, goat cheese, and green herb sauce.",15.99,80,No
+Arcadia Bay,Desserts,Cheat Code Cookies,Cookies with chocolate chips and candies.,5.99,96,No
+Arcadia Bay,Desserts,Cheat Code Chocolate Cake,Rich chocolate cake with chips and candies. Restores 20 Health.,17.99,0,Yes
+Arcadia Bay,Drinks,Health Potion Smoothie ++,A blend of red fruits that restores your max health.,20.99,71,Yes
+Arcadia Bay,Drinks,Yellow Mana Milkshake,A peach milkshake that restores your max energy.,20.99,59,Yes
+Arcadia Bay,Sides,Supernova Sweet Potato Fries,Sweet and spicy sweet potato fries with starlight mayo.,8.99,1,No
+Arcadia Bay,Sides,Cosmic Rings,Onion rings with cosmic seasoning and intergalactic sauce.,8.99,34,No
+Arcadia Bay,Sides,Power-Up Fries,Seasoned fries with power-up dips.,10.99,51,Yes
+Arcadia Bay,Desserts,Banana Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top.",6.99,68,No
+Arcadia Bay,Desserts,Power Pellet Pops,Fruit-infused ice pops.,5.99,99,No
+Arcadia Bay,Desserts,Save Point Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top. Respawn Anchor Included!",20.99,31,Yes
+Arcadia Bay,Desserts,Power Pellet Pops ++,Fruit-infused ice pops. Restores 20 Mana.,17.99,0,Yes
+Arcadia Bay,Drinks,Health Potion Smoothie,A blend of red fruits with a secret energy mix.,10.99,51,Yes
+Arcadia Bay,Drinks,Green Mana Milkshake,A blueberry milkshake that restores your energy.,10.99,34,Yes
+Arcadia Bay,Drinks,XP Soda,A range of sodas in multiple epic flavors.,9.99,63,No
+Arcadia Bay,Drinks,Max XP Soda,A range of sodas in multiple epic flavors. Now with Max XP Boost!,20.99,81,Yes
+Arcadia Bay,Sides,Black Hole Fries,Fries with a dark garlic truffle sauce.,8.99,82,No
+Arcadia Bay,Sides,Byte-Size Tots,Crispy tater tots with cheat-code cheese sauce.,8.99,94,No
+Arcadia Bay,Sides,Quantum Fries,Seasoned fries with a secret spice blend.,8.99,5,No
+Elysium District,Burgers,Epic Stack,"A double beef patty with epic layers of crispy bacon, melted cheddar, and our secret Epic Sauce.",12.99,71,No
+Elysium District,Burgers,Avatar Avocado,A chicken burger with creamy avocado spread and sun-dried tomato mayo.,12.99,0,No
+Elysium District,Burgers,Retro Reuben,"Corned beef, sauerkraut, Swiss cheese, and thousand island dressing on a rye bun.",11.99,82,No
+Elysium District,Burgers,Stealth Mode Mushroom,A grilled portobello cap with smoked gouda and garlic aioli. Lowers visible presence of customer for 10 minutes.,13.99,22,Yes
+Elysium District,Burgers,Pixel Pepperjack,"A spicy beef burger with pepperjack cheese, jalapenos, and pixelated salsa.",13.99,57,No
+Elysium District,Burgers,Next Level Veggie,"A plant-based patty with grilled eggplant, zucchini, goat cheese, and green herb sauce.",15.99,44,No
+Elysium District,Desserts,Cheat Code Cookies,Cookies with chocolate chips and candies.,5.99,19,No
+Elysium District,Desserts,Cheat Code Chocolate Cake,Rich chocolate cake with chips and candies. Restores 20 Health.,17.99,18,Yes
+Elysium District,Drinks,Health Potion Smoothie ++,A blend of red fruits that restores your max health.,20.99,16,Yes
+Elysium District,Drinks,Yellow Mana Milkshake,A peach milkshake that restores your max energy.,20.99,33,Yes
+Elysium District,Sides,Supernova Sweet Potato Fries,Sweet and spicy sweet potato fries with starlight mayo.,8.99,81,No
+Elysium District,Sides,Cosmic Rings,Onion rings with cosmic seasoning and intergalactic sauce.,8.99,25,No
+Elysium District,Sides,Power-Up Fries,Seasoned fries with power-up dips.,10.99,100,Yes
+Elysium District,Desserts,Banana Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top.",6.99,92,No
+Elysium District,Desserts,Power Pellet Pops,Fruit-infused ice pops.,5.99,47,No
+Elysium District,Desserts,Save Point Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top. Respawn Anchor Included!",20.99,71,Yes
+Elysium District,Desserts,Power Pellet Pops ++,Fruit-infused ice pops. Restores 20 Mana.,17.99,3,Yes
+Elysium District,Drinks,Health Potion Smoothie,A blend of red fruits with a secret energy mix.,10.99,88,Yes
+Elysium District,Drinks,Green Mana Milkshake,A blueberry milkshake that restores your energy.,10.99,39,Yes
+Elysium District,Drinks,XP Soda,A range of sodas in multiple epic flavors.,9.99,47,No
+Elysium District,Drinks,Max XP Soda,A range of sodas in multiple epic flavors. Now with Max XP Boost!,20.99,80,Yes
+Elysium District,Sides,Black Hole Fries,Fries with a dark garlic truffle sauce.,8.99,96,No
+Elysium District,Sides,Byte-Size Tots,Crispy tater tots with cheat-code cheese sauce.,8.99,57,No
+Elysium District,Sides,Quantum Fries,Seasoned fries with a secret spice blend.,8.99,44,No
+Mystic Falls,Burgers,Epic Stack,"A double beef patty with epic layers of crispy bacon, melted cheddar, and our secret Epic Sauce.",12.99,47,No
+Mystic Falls,Burgers,Avatar Avocado,A chicken burger with creamy avocado spread and sun-dried tomato mayo.,12.99,83,No
+Mystic Falls,Burgers,Retro Reuben,"Corned beef, sauerkraut, Swiss cheese, and thousand island dressing on a rye bun.",11.99,21,No
+Mystic Falls,Burgers,Stealth Mode Mushroom,A grilled portobello cap with smoked gouda and garlic aioli. Lowers visible presence of customer for 10 minutes.,13.99,55,Yes
+Mystic Falls,Burgers,Pixel Pepperjack,"A spicy beef burger with pepperjack cheese, jalapenos, and pixelated salsa.",13.99,88,No
+Mystic Falls,Burgers,Next Level Veggie,"A plant-based patty with grilled eggplant, zucchini, goat cheese, and green herb sauce.",15.99,50,No
+Mystic Falls,Desserts,Cheat Code Cookies,Cookies with chocolate chips and candies.,5.99,74,No
+Mystic Falls,Desserts,Cheat Code Chocolate Cake,Rich chocolate cake with chips and candies. Restores 20 Health.,17.99,47,Yes
+Mystic Falls,Desserts,Banana Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top.",6.99,38,No
+Mystic Falls,Desserts,Power Pellet Pops,Fruit-infused ice pops.,5.99,12,No
+Mystic Falls,Desserts,Save Point Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top. Respawn Anchor Included!",20.99,0,Yes
+Mystic Falls,Desserts,Power Pellet Pops ++,Fruit-infused ice pops. Restores 20 Mana.,17.99,25,Yes
+Mystic Falls,Drinks,Health Potion Smoothie ++,A blend of red fruits that restores your max health.,20.99,3,Yes
+Mystic Falls,Drinks,Yellow Mana Milkshake,A peach milkshake that restores your max energy.,20.99,38,Yes
+Mystic Falls,Drinks,Health Potion Smoothie,A blend of red fruits with a secret energy mix.,10.99,52,Yes
+Mystic Falls,Drinks,Green Mana Milkshake,A blueberry milkshake that restores your energy.,10.99,0,Yes
+Mystic Falls,Drinks,XP Soda,A range of sodas in multiple epic flavors.,9.99,71,No
+Mystic Falls,Drinks,Max XP Soda,A range of sodas in multiple epic flavors. Now with Max XP Boost!,20.99,59,Yes
+Mystic Falls,Sides,Supernova Sweet Potato Fries,Sweet and spicy sweet potato fries with starlight mayo.,8.99,37,No
+Mystic Falls,Sides,Cosmic Rings,Onion rings with cosmic seasoning and intergalactic sauce.,8.99,61,No
+Mystic Falls,Sides,Power-Up Fries,Seasoned fries with power-up dips.,10.99,95,Yes
+Mystic Falls,Sides,Black Hole Fries,Fries with a dark garlic truffle sauce.,8.99,100,No
+Mystic Falls,Sides,Byte-Size Tots,Crispy tater tots with cheat-code cheese sauce.,8.99,81,No
+Mystic Falls,Sides,Quantum Fries,Seasoned fries with a secret spice blend.,8.99,28,No
+Neo Tokyo,Burgers,Epic Stack,"A double beef patty with epic layers of crispy bacon, melted cheddar, and our secret Epic Sauce.",12.99,4,No
+Neo Tokyo,Burgers,Avatar Avocado,A chicken burger with creamy avocado spread and sun-dried tomato mayo.,12.99,93,No
+Neo Tokyo,Burgers,Retro Reuben,"Corned beef, sauerkraut, Swiss cheese, and thousand island dressing on a rye bun.",11.99,33,No
+Neo Tokyo,Burgers,Stealth Mode Mushroom,A grilled portobello cap with smoked gouda and garlic aioli. Lowers visible presence of customer for 10 minutes.,13.99,92,Yes
+Neo Tokyo,Burgers,Pixel Pepperjack,"A spicy beef burger with pepperjack cheese, jalapenos, and pixelated salsa.",13.99,80,No
+Neo Tokyo,Burgers,Next Level Veggie,"A plant-based patty with grilled eggplant, zucchini, goat cheese, and green herb sauce.",15.99,8,No
+Neo Tokyo,Desserts,Cheat Code Cookies,Cookies with chocolate chips and candies.,5.99,63,No
+Neo Tokyo,Desserts,Cheat Code Chocolate Cake,Rich chocolate cake with chips and candies. Restores 20 Health.,17.99,39,Yes
+Neo Tokyo,Drinks,Health Potion Smoothie ++,A blend of red fruits that restores your max health.,20.99,0,Yes
+Neo Tokyo,Drinks,Yellow Mana Milkshake,A peach milkshake that restores your max energy.,20.99,67,Yes
+Neo Tokyo,Sides,Supernova Sweet Potato Fries,Sweet and spicy sweet potato fries with starlight mayo.,8.99,6,No
+Neo Tokyo,Sides,Cosmic Rings,Onion rings with cosmic seasoning and intergalactic sauce.,8.99,58,No
+Neo Tokyo,Sides,Power-Up Fries,Seasoned fries with power-up dips.,10.99,12,Yes
+Neo Tokyo,Desserts,Banana Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top.",6.99,44,No
+Neo Tokyo,Desserts,Power Pellet Pops,Fruit-infused ice pops.,5.99,79,No
+Neo Tokyo,Desserts,Save Point Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top. Respawn Anchor Included!",20.99,87,Yes
+Neo Tokyo,Desserts,Power Pellet Pops ++,Fruit-infused ice pops. Restores 20 Mana.,17.99,88,Yes
+Neo Tokyo,Drinks,Health Potion Smoothie,A blend of red fruits with a secret energy mix.,10.99,66,Yes
+Neo Tokyo,Drinks,Green Mana Milkshake,A blueberry milkshake that restores your energy.,10.99,16,Yes
+Neo Tokyo,Drinks,XP Soda,A range of sodas in multiple epic flavors.,9.99,85,No
+Neo Tokyo,Drinks,Max XP Soda,A range of sodas in multiple epic flavors. Now with Max XP Boost!,20.99,85,Yes
+Neo Tokyo,Sides,Black Hole Fries,Fries with a dark garlic truffle sauce.,8.99,72,No
+Neo Tokyo,Sides,Byte-Size Tots,Crispy tater tots with cheat-code cheese sauce.,8.99,15,No
+Neo Tokyo,Sides,Quantum Fries,Seasoned fries with a secret spice blend.,8.99,10,No
+Cyber City,Burgers,Epic Stack,"A double beef patty with epic layers of crispy bacon, melted cheddar, and our secret Epic Sauce.",12.99,16,No
+Cyber City,Burgers,Avatar Avocado,A chicken burger with creamy avocado spread and sun-dried tomato mayo.,12.99,2,No
+Cyber City,Burgers,Retro Reuben,"Corned beef, sauerkraut, Swiss cheese, and thousand island dressing on a rye bun.",11.99,75,No
+Cyber City,Burgers,Stealth Mode Mushroom,A grilled portobello cap with smoked gouda and garlic aioli. Lowers visible presence of customer for 10 minutes.,13.99,45,Yes
+Cyber City,Burgers,Pixel Pepperjack,"A spicy beef burger with pepperjack cheese, jalapenos, and pixelated salsa.",13.99,73,No
+Cyber City,Burgers,Next Level Veggie,"A plant-based patty with grilled eggplant, zucchini, goat cheese, and green herb sauce.",15.99,71,No
+Cyber City,Desserts,Cheat Code Cookies,Cookies with chocolate chips and candies.,5.99,9,No
+Cyber City,Desserts,Cheat Code Chocolate Cake,Rich chocolate cake with chips and candies. Restores 20 Health.,17.99,46,Yes
+Cyber City,Drinks,Health Potion Smoothie ++,A blend of red fruits that restores your max health.,20.99,1,Yes
+Cyber City,Drinks,Yellow Mana Milkshake,A peach milkshake that restores your max energy.,20.99,14,Yes
+Cyber City,Sides,Supernova Sweet Potato Fries,Sweet and spicy sweet potato fries with starlight mayo.,8.99,82,No
+Cyber City,Sides,Cosmic Rings,Onion rings with cosmic seasoning and intergalactic sauce.,8.99,85,No
+Cyber City,Sides,Power-Up Fries,Seasoned fries with power-up dips.,10.99,11,Yes
+Cyber City,Desserts,Banana Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top.",6.99,29,No
+Cyber City,Desserts,Power Pellet Pops,Fruit-infused ice pops.,5.99,54,No
+Cyber City,Desserts,Save Point Sundae,"Ice cream, hot fudge, and sprinkles with a cherry on top. Respawn Anchor Included!",20.99,93,Yes
+Cyber City,Desserts,Power Pellet Pops ++,Fruit-infused ice pops. Restores 20 Mana.,17.99,24,Yes
+Cyber City,Drinks,Health Potion Smoothie,A blend of red fruits with a secret energy mix.,10.99,71,Yes
+Cyber City,Drinks,Green Mana Milkshake,A blueberry milkshake that restores your energy.,10.99,56,Yes
+Cyber City,Drinks,XP Soda,A range of sodas in multiple epic flavors.,9.99,78,No
+Cyber City,Drinks,Max XP Soda,A range of sodas in multiple epic flavors. Now with Max XP Boost!,20.99,71,Yes
+Cyber City,Sides,Black Hole Fries,Fries with a dark garlic truffle sauce.,8.99,23,No
+Cyber City,Sides,Byte-Size Tots,Crispy tater tots with cheat-code cheese sauce.,8.99,16,No
+Cyber City,Sides,Quantum Fries,Seasoned fries with a secret spice blend.,8.99,0,No
