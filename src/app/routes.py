@@ -5,7 +5,7 @@ Student(s):
 Description: Project 2 - Incidents
 '''
 
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
 from app import db
 from app.models import User, Recipe, MysticBurger
@@ -19,8 +19,11 @@ app = Blueprint('main', __name__)
 @app.route('/index')
 @app.route('/index.html')
 def index(): 
-    recipes = MysticBurger.query.all()
-    return render_template('index.html', recipes=recipes)
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    pagination = MysticBurger.query.paginate(page=page, per_page=per_page, error_out=False)
+    recipes = pagination.items
+    return render_template('index.html', recipes=recipes, pagination=pagination)
 
 @app.route('/users/signup', methods=['GET', 'POST'])
 def signup():
@@ -77,36 +80,79 @@ def search_menu():
     results = query.all()
     return render_template('search.html', form=form, results=results)
 
-@app.route('/incidents', methods=['GET'])
-def list_recipes():
-    return 'Work in progress...'
-
-@app.route('/incidents/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/admin_dashboard/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_recipe(id): # requires admin
-    form = RecipeUpdateForm()
-    if form.validate_on_submit():
-        # Add your update logic here
-        pass
-    return render_template('update_recipe.html', form=form)
+    #form = RecipeUpdateForm()
+    return render_template('index.html')
 
-@app.route('/incidents/create', methods=['GET', 'POST'])
+@app.route('/admin_dashboard/create', methods=['GET', 'POST'])
 @login_required
 def create_recipe(): # requires admin
     form = RecipeCreateForm()
     if form.validate_on_submit():
-        # Add your create logic here
-        pass
-    return render_template('create_recipe.html', form=form)
+        if current_user.is_admin:
+            stores = [
+            ('Arcadia Bay', form.qty_arcadia_bay.data),
+            ('Elysium District', form.qty_elysium_district.data),
+            ('Mystic Falls', form.qty_mystic_falls.data),
+            ('Neo Tokyo', form.qty_neo_tokyo.data),
+            ('Cyber City', form.qty_cyber_city.data)
+            ]
+            for store, qty in stores:
+                new_recipe = MysticBurger(
+                    category=form.category.data,
+                    store=store,
+                    item=form.item.data,
+                    description=form.description.data,
+                    price=form.price.data,
+                    qty=qty,
+                    magic=form.magic.data
+            )
+            db.session.add(new_recipe)
+            
+            db.session.commit()
+            print('Recipe added successfully!', 'success')
+            return redirect(url_for('main.index'))
+        return render_template('create_recipe.html', form=form)
+    
 
-###Testing function:
-###@app.route('/populate-db')
-###def populate_db():
-    sample_burgers = [
-        MysticBurger(store='Mystic Store 1', category='Burgers', item='Mystic Burger', description='A magical burger', price=9.99, qty=10, magic=True),
-        MysticBurger(store='Mystic Store 2', category='Drinks', item='Mystic Shake', description='A magical shake', price=4.99, qty=20, magic=True),
-        MysticBurger(store='Mystic Store 3', category='Sides', item='Mystic Fries', description='Magical fries', price=2.99, qty=30, magic=False)
-    ]
-    db.session.bulk_save_objects(sample_burgers)
-    db.session.commit()
-    return "Database populated with sample data!"
+@app.route('/admin_dashboard/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_recipe(id): # requires admin
+    if current_user.is_admin:
+        recipe = MysticBurger.query.get(id)
+        if recipe:
+            try:
+                db.session.delete(recipe)
+                db.session.commit()
+                db.session.expire_all()
+                print('recipe successfully deleted.')
+            except Exception as e:
+                db.session.rollback()
+                print(f"Error occurred during deletion: {e}")
+                return 'An error occurred while deleting the incident.', 500
+        else:
+            print('Incident not found.')
+        # Refresh the incident list with pagination after deletion
+        form = MenuSearchForm()
+        page = request.args.get('page', 1, type=int)
+        pagination = MysticBurger.query.paginate(page=page, per_page=10)
+        return render_template('index.html', form=form, incidents=pagination.items,
+                               pagination=pagination, current_page=page, total_pages=pagination.pages)
+    else:
+        return 'User does not have credentials...Access Denied', 403
+
+
+
+#Testing function:
+#@app.route('/populate-db')
+#def populate_db():
+#   sample_burgers = [
+#        MysticBurger(store='Mystic Store 1', category='Burgers', item='Mystic Burger', description='A magical burger', price=9.99, qty=10, magic=True),
+#        MysticBurger(store='Mystic Store 2', category='Drinks', item='Mystic Shake', description='A magical shake', price=4.99, qty=20, magic=True),
+#        MysticBurger(store='Mystic Store 3', category='Sides', item='Mystic Fries', description='Magical fries', price=2.99, qty=30, magic=False)
+#    ]
+#    db.session.bulk_save_objects(sample_burgers)
+#    db.session.commit()
+#    return "Database populated."

@@ -13,7 +13,6 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.String(64), primary_key=True)
     name = db.Column(db.String(64), nullable=False)
-    about = db.Column(db.String(256))
     admin = db.Column(db.Boolean, default=False)
     passwd = db.Column(db.LargeBinary, nullable=False)
 

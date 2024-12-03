@@ -14,18 +14,31 @@
         <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Incident Results</title>
+        <title>Menu</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
         <header>
-            <nav>     
-                <button type="button" class="button" onclick="simple_action('{{ url_for('main.login') }}')">Login</button>
-                <button type="button" class="button" onclick="simple_action('{{ url_for('main.signup') }}')">Sign Up</button>
+            <nav>
+                {% if current_user.is_authenticated %}
+                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.dashboard') }}')">Sign Out</button>
+                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.signout') }}')">Sign Out</button>
+                {% else %}
+                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.login') }}')">Login</button>
+                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.signup') }}')">Sign Up</button>
+                {% endif %}
             </nav>
         </header>
         <section class="results-section">
             <h1>Menu</h1>
+            <form method="get" action="{{ url_for('main.index') }}">
+                <label for="sort_by">Sort by Store:</label>
+                <select name="sort_by" id="sort_by" onchange="this.form.submit()">
+                    {% for store in stores %}
+                        <option value="{{ store }}" {% if store == sort_by %}selected{% endif %}>{{ store }}</option>
+                    {% endfor %}
+                </select>
+            </form>
             {% if recipes %}
                 <table>
                     <thead>
@@ -48,16 +61,34 @@
                             <td>{{ recipe.description }}</td>
                             <td>{{ recipe.price }}</td>
                             <td>{{ recipe.store }}</td>
-                            <td>{{ recipe.quantity }}</td>
+                            <td>{{ recipe.qty }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
+                <div class="pagination">
+                    {% if pagination.has_prev %}
+                        <a href="{{ url_for('main.index', page=pagination.prev_num, sort_by=sort_by) }}">Previous</a>
+                    {% endif %}
+
+                    {% for page_num in pagination.iter_pages() %}
+                        {% if page_num %}
+                            {% if page_num == pagination.page %}
+                                <strong>{{ page_num }}</strong>
+                            {% else %}
+                                <a href="{{ url_for('main.index', page=page_num, sort_by=sort_by) }}">{{ page_num }}</a>
+                            {% endif %}
+                        {% else %}
+                            ...
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if pagination.has_next %}
+                        <a href="{{ url_for('main.index', page=pagination.next_num, sort_by=sort_by) }}">Next</a>
+                    {% endif %}
+                </div>
             {% else %}
                 <p>No menu items are found matching your search criteria.</p>
-            {% endif %}
-            {% if current_user.is_authenticated %}
-                <button type="button" class="button" onclick="simple_action('{{ url_for('main.signout') }}')">Sign Out</button>
             {% endif %}
         </section>
 {% endblock %}
