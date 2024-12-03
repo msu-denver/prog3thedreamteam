@@ -11,9 +11,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
-    id = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    about = db.Column(db.String)
+    id = db.Column(db.String(64), primary_key=True)
+    name = db.Column(db.String(64), nullable=False)
+    about = db.Column(db.String(256))
     admin = db.Column(db.Boolean, default=False)
     passwd = db.Column(db.LargeBinary, nullable=False)
 
@@ -29,26 +29,27 @@ class User(db.Model, UserMixin):
 class RecipeType(db.Model):
     __tablename__ = 'recipe_types'
     code = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String, nullable=False)
+    description = db.Column(db.String(256), nullable=False)
 
     def __str__(self):
-        return f'{self.code},{self.description}'
+        return f'{self.code}, {self.description}'
 
 class Recipe(db.Model):
-    __tablename__ = 'recipe'
-    recipe = db.Column(db.String, nullable=False)
+    __tablename__ = 'recipes'
+    id = db.Column(db.Integer, primary_key=True)  # Added primary key
+    name = db.Column(db.String(256), nullable=False)
     recipe_type_code = db.Column(db.Integer, db.ForeignKey('recipe_types.code'))
     recipe_type = db.relationship('RecipeType', foreign_keys=[recipe_type_code])
-    description = db.Column(db.String, nullable=False)
+    description = db.Column(db.String(256), nullable=False)
     magic = db.Column(db.Boolean, nullable=False)
 
 class MysticBurger(db.Model):
     __tablename__ = 'mysticburgers'
     id = db.Column(db.Integer, primary_key=True)
-    store = db.Column(db.String)
-    category = db.Column(db.String)
-    item = db.Column(db.String)
-    description = db.Column(db.String)
+    store = db.Column(db.String(64))
+    category = db.Column(db.String(64))
+    item = db.Column(db.String(64))
+    description = db.Column(db.String(256))
     price = db.Column(db.Float)
     qty = db.Column(db.Integer)
     magic = db.Column(db.Boolean)

@@ -99,8 +99,9 @@ def create_recipe(): # requires admin
         pass
     return render_template('create_recipe.html', form=form)
 
-@app.route('/populate-db')
-def populate_db():
+###Testing function:
+###@app.route('/populate-db')
+###def populate_db():
     sample_burgers = [
         MysticBurger(store='Mystic Store 1', category='Burgers', item='Mystic Burger', description='A magical burger', price=9.99, qty=10, magic=True),
         MysticBurger(store='Mystic Store 2', category='Drinks', item='Mystic Shake', description='A magical shake', price=4.99, qty=20, magic=True),
