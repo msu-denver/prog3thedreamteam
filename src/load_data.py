@@ -7,7 +7,7 @@ app = create_app()
 
 def load_data():
     # Read the CSV file
-    df = pd.read_csv('/mnt/c/Users/sarah/OneDrive/Desktop/School/2024/Fall/SWDevCS-3250-002/CS3250/Project3/project-3-final-project-thedreamteam2/Database/mysticburgers.csv')
+    df = pd.read_csv('C:\School\MSU\Fall2024\CS3250_SWDevMethodsAndTools\github\projects\project-3-final-project-thedreamteam2\Database\mysticburgers.csv')
     
     # Clean up column names
     df.columns = df.columns.str.strip()
