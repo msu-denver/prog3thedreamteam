@@ -21,8 +21,12 @@
         <header>
             <nav>
                 {% if current_user.is_authenticated %}
-                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.dashboard') }}')">Sign Out</button>
                     <button type="button" class="button" onclick="simple_action('{{ url_for('main.signout') }}')">Sign Out</button>
+                    {% if current_user.is_admin %}
+                        <button type="button" class="button" onclick="simple_action('{{ url_for('main.update_recipe') }}')">Update Recipe</button>
+                        <button type="button" class="button" onclick="simple_action('{{ url_for('main.create_recipe') }}')">Create Recipe</button>
+                        <button type="button" class="button" onclick="simple_action('{{ url_for('main.delete_recipe') }}')">Delete Recipe</button>
+                    {% endif %}
                 {% else %}
                     <button type="button" class="button" onclick="simple_action('{{ url_for('main.login') }}')">Login</button>
                     <button type="button" class="button" onclick="simple_action('{{ url_for('main.signup') }}')">Sign Up</button>
@@ -50,6 +54,9 @@
                             <th>Price</th>
                             <th>Store</th>
                             <th>Quantity</th>
+                            {% if current_user.is_admin %}
+                                <th>Actions</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -62,6 +69,13 @@
                             <td>{{ recipe.price }}</td>
                             <td>{{ recipe.store }}</td>
                             <td>{{ recipe.qty }}</td>
+                            {% if current_user.is_admin %}
+                                <td>
+                                    <form method="POST" action="{{ url_for('main.delete_recipe', id=recipe.id) }}">
+                                        <button type="submit" class="button">Delete</button>
+                                    </form>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -91,4 +105,6 @@
                 <p>No menu items are found matching your search criteria.</p>
             {% endif %}
         </section>
+    </body>
+    </html>
 {% endblock %}

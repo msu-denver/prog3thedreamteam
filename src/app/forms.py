@@ -47,9 +47,24 @@ class RecipeCreateForm(FlaskForm):
     submit = SubmitField('Add Menu Item')
     
 class RecipeUpdateForm(FlaskForm):
+    id = HiddenField('ID', validators=[DataRequired()])
+    category = SelectField('Category', choices=[
+        ('burgers', 'Burgers'), 
+        ('desserts', 'Desserts'), 
+        ('drinks', 'Drinks'),
+        ('sides', 'Sides'),
+    ], validators=[DataRequired()])
+    store = SelectField('Store', choices=[
+        ('Arcadia Bay', 'Arcadia Bay'), ('Elysium District', 'Elysium District'),
+        ('Mystic Falls', 'Mystic Falls'), ('Neo Tokyo', 'Neo Tokyo'),
+        ('Cyber City', 'Cyber City')
+    ], validators=[DataRequired()])
+    item = StringField('Item', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    price = FloatField('Price', validators=[DataRequired()])
+    qty = IntegerField('Quantity', validators=[DataRequired()])
+    magic = BooleanField('Magic', validators=[Optional()])
     submit = SubmitField('Update Recipe')
-
-
 
 class MenuSearchForm(FlaskForm):
     menu_category = SelectField('Actor Type', choices=[

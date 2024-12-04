@@ -53,8 +53,13 @@ def login():
 @app.route('/dashboard', methods=['GET'])
 @login_required
 def dashboard():
-    recipes = MysticBurger.query.all()  # Query all recipes
-    return render_template('index.html', recipes=recipes)
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    pagination = MysticBurger.query.paginate(page=page, per_page=per_page, error_out=False)
+    recipes = pagination.items
+    stores = ['Arcadia Bay', 'Elysium District', 'Mystic Falls', 'Neo Tokyo', 'Cyber City']
+    sort_by = request.args.get('sort_by', 'Arcadia Bay')
+    return render_template('index.html', recipes=recipes, pagination=pagination, stores=stores, sort_by=sort_by)
 
 @app.route('/users/signout', methods=['GET', 'POST'])
 @login_required
@@ -83,8 +88,32 @@ def search_menu():
 @app.route('/admin_dashboard/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_recipe(id): # requires admin
-    #form = RecipeUpdateForm()
-    return render_template('index.html')
+    form = RecipeUpdateForm()
+    if form.validate_on_submit():
+        if current_user.is_admin:
+            stores = [
+            ('Arcadia Bay', form.qty_arcadia_bay.data),
+            ('Elysium District', form.qty_elysium_district.data),
+            ('Mystic Falls', form.qty_mystic_falls.data),
+            ('Neo Tokyo', form.qty_neo_tokyo.data),
+            ('Cyber City', form.qty_cyber_city.data)
+        ]
+        for store, qty in stores:
+            new_recipe = MysticBurger(
+                category=form.category.data,
+                store=store,
+                item=form.item.data,
+                description=form.description.data,
+                price=form.price.data,
+                qty=qty,
+                magic=form.magic.data
+            )
+            db.session.add(new_recipe)
+        
+        db.session.commit()
+        print('Recipe added successfully!', 'success')
+        return redirect(url_for('main.index'))
+    return render_template('create_recipe.html', form=form)
 
 @app.route('/admin_dashboard/create', methods=['GET', 'POST'])
 @login_required
