@@ -1,6 +1,17 @@
 # Overview
 
-Use this section to outline the vision for the product, including a **use case diagram** that illustrates the main user interactions. This will provide readers with a comprehensive overview of the project.
+## The Vision
+Dining out can be a hassle when it comes to finding what you want on the menu, and for restaurant staff, keeping the menu updated can be a time-consuming challenge. Mystic Burgers solves both of these problems. The web app makes it easy for customers to browse, sort, and save their favorite menu items, creating a more enjoyable and personalized dining experience. At the same time, it helps restaurant staff manage and update the menu quickly and efficiently, ensuring that customers always have the freshest options. Mystic Burgers is all about making the dining experience smoother for everyone, from the kitchen to the table.
+
+## Target Audience
+
+**Customers** who want a simple and user-friendly way to explore and interact with the restaurant's menu.
+
+**Restaurant Administrators** who need an easy-to-use tool for managing and updating menu items.
+
+![pics/usecase.png](pics/usecase.png)
+
+
 
 # Design
 
@@ -27,11 +38,14 @@ US#6 (optional):  Story Points: 13
 
 ## Sequence Diagram
 
-At least one **user story**, unrelated to user creation or authentication, must be detailed using a **sequence diagram**.
+![pics/sequence.png](pics/sequence.png)
+
 
 ## Model 
 
-Include a class diagram that clearly describes the model classes used in the project and their associations.
+![pics/class.png](pics/class.png)
+
+
 
 # Development Process 
 
