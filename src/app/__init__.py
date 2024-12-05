@@ -13,7 +13,7 @@ def create_app():
     app = Flask('Menu Web App')
     app.secret_key = 'you will never know'
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://adam:adam@localhost/mysticmenu_db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1824@localhost:5432/mysticmenu_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)

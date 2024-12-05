@@ -5,7 +5,7 @@ Student(s):
 Description: Project 2 - Incidents
 '''
 
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, login_user, logout_user, current_user
 from app import db
 from app.models import User, Recipe, MysticBurger
@@ -19,7 +19,19 @@ app = Blueprint('main', __name__)
 @app.route('/index')
 @app.route('/index.html')
 def index(): 
-    recipes = MysticBurger.query.all()
+    # Get the search query from the form
+    search_query = request.args.get('search', '').lower()
+
+    # Filter MysticBurgers based on the search query
+    if search_query:
+        recipes = MysticBurger.query.filter(
+            (MysticBurger.category.ilike(f'%{search_query}%')) | 
+            (MysticBurger.item.ilike(f'%{search_query}%'))
+        ).all()
+    else:
+        # If no search query, show all items
+        recipes = MysticBurger.query.all()
+
     return render_template('index.html', recipes=recipes)
 
 @app.route('/users/signup', methods=['GET', 'POST'])

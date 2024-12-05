@@ -45,6 +45,9 @@ class Recipe(db.Model):
 
 class MysticBurger(db.Model):
     __tablename__ = 'mysticburgers'
+    __table_args__ = {'schema': 'public'}  # Specify the schema explicitly
+
+
     id = db.Column(db.Integer, primary_key=True)
     store = db.Column(db.String(64))
     category = db.Column(db.String(64))

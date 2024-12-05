@@ -24,6 +24,16 @@
                 <button type="button" class="button" onclick="simple_action('{{ url_for('main.signup') }}')">Sign Up</button>
             </nav>
         </header>
+
+        <!-- Search Form -->
+        <section class="search-section">
+            <h1>Search</h1>
+            <form method="get" action="/">
+                <input type="text" name="search" placeholder="Search by category or item" value="{{ request.args.get('search', '') }}">
+                <button type="submit">Search</button>
+            </form>
+        </section>
+
         <section class="results-section">
             <h1>Menu</h1>
             {% if recipes %}
