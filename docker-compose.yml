@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app
+      - FLASK_RUN_HOST=0.0.0.0
+      - DATABASE_URL=postgresql://sarah:sarah@db:5432/mysticmenu_db
+      - SECRET_KEY=your_secret_key
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app
+      - ./Database:/app/Database  # Mount the Database directory
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: sarah
+      POSTGRES_PASSWORD: sarah
+      POSTGRES_DB: mysticmenu_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

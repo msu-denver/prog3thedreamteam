@@ -8,12 +8,13 @@ from flask import Flask
 from flask_login import LoginManager
 from app.extensions import db
 from app.models import User
+import os
 
 def create_app():
     app = Flask('Menu Web App')
-    app.secret_key = 'you will never know'
+    app.secret_key = os.getenv('SECRET_KEY', 'default_secret_key')
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sarah:sarah@localhost/mysticmenu_db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://sarah:sarah@localhost:5433/mysticmenu_db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
