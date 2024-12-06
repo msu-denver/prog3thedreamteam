@@ -5,7 +5,7 @@ Student(s):
 Description: Project 2 - Incidents
 '''
 
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, session
 from flask_login import login_required, login_user, logout_user, current_user
 from app import db
 from app.models import User, Recipe, MysticBurger
@@ -171,6 +171,32 @@ def delete_recipe(id): # requires admin
                                pagination=pagination, current_page=page, total_pages=pagination.pages)
     else:
         return 'User does not have credentials...Access Denied', 403
+    
+@app.route('/add_to_cart/<int:item_id>', methods=['POST'])
+@login_required
+def add_to_cart(item_id):
+    item = MysticBurger.query.get(item_id)
+    if 'cart' not in session:
+        session['cart'] = []
+    session['cart'].append({'id': item.id, 'name': item.item, 'price': item.price})
+    session.modified = True
+    return redirect(url_for('main.index'))
+
+@app.route('/cart')
+@login_required
+def cart():
+    cart = session.get('cart', [])
+    total = sum(item['price'] for item in cart)
+    return render_template('cart.html', cart=cart, total=total)
+
+@app.route('/remove_from_cart/<int:item_id>', methods=['POST'])
+@login_required
+def remove_from_cart(item_id):
+    cart = session.get('cart', [])
+    cart = [item for item in cart if item['id'] != item_id]
+    session['cart'] = cart
+    session.modified = True
+    return redirect(url_for('main.cart'))
 
 
 
