@@ -1,6 +1,6 @@
 # Sprint Planning
 
-Date/Time: 12/3/24, 2:20pm
+Date/Time: 12/1/24, 2:20pm
 
 Participants: Adam, Sarah, RJ, Moe
 
@@ -11,19 +11,3 @@ For user stories 2 and 3, Sarah will be working on admin actions, and Moe will b
 Adam will be working on user story 5.
 RJ will be working on user story 4.
 
-Goal Statement: 
-
-
-
-
-
-
-US1 completed
-
-US2+3
-someone on dashboard (moe)
-someone on actions, add, delete, update (sarah)
-
-US5 adam
-
-diagrams + mission statement: RJ
