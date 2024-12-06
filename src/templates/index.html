@@ -29,7 +29,29 @@
         <section class="search-section">
             <h1>Search</h1>
             <form method="get" action="/">
-                <input type="text" name="search" placeholder="Search by category or item" value="{{ request.args.get('search', '') }}">
+                <div> <!-- Text search box -->
+                    <label for="search">Search by Item Name:</label>
+                    <input type="text" name="search" placeholder="Search by category or item" value="{{ request.args.get('search', '') }}">
+                </div>
+                <div> <!-- Dropdown for categories -->
+                    <label for="category">Filter by Category:</label>
+                    <select name="category">
+                        <option value="">Select Category</option>
+                        {% for category in categories %}
+                            <option value="{{ category }}" {% if request.args.get('category') == category %}selected{% endif %}>{{ category }}</option>
+                        {% endfor %}
+                    </select>                
+                </div>
+                <div><!-- Dropdown for restaurants -->
+                    <label for="store">Filter by Restaurant:</label>
+                    <select name="store">
+                        <option value="">Select Restaurant</option>
+                        {% for store in stores %}
+                            <option value="{{ store }}" {% if request.args.get('store') == store %}selected{% endif %}>{{ store }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
                 <button type="submit">Search</button>
             </form>
         </section>

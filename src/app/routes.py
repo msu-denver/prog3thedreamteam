@@ -19,20 +19,31 @@ app = Blueprint('main', __name__)
 @app.route('/index')
 @app.route('/index.html')
 def index(): 
-    # Get the search query from the form
-    search_query = request.args.get('search', '').lower()
+    # Get all distinct categories and stores for dropdowns
+    categories = [row[0] for row in db.session.query(MysticBurger.category).distinct()]
+    stores = [row[0] for row in db.session.query(MysticBurger.store).distinct()]
+    
+    # Start with the full query
+    query = MysticBurger.query
 
-    # Filter MysticBurgers based on the search query
-    if search_query:
-        recipes = MysticBurger.query.filter(
-            (MysticBurger.category.ilike(f'%{search_query}%')) | 
-            (MysticBurger.item.ilike(f'%{search_query}%'))
-        ).all()
-    else:
-        # If no search query, show all items
-        recipes = MysticBurger.query.all()
+    # Apply filters if provided
+    search = request.args.get('search')
+    if search:
+        query = query.filter(MysticBurger.item.ilike(f"%{search}%"))
 
-    return render_template('index.html', recipes=recipes)
+    category = request.args.get('category')
+    if category:
+        query = query.filter(MysticBurger.category == category)
+
+    store = request.args.get('store')
+    if store:
+        query = query.filter(MysticBurger.store == store)
+
+    # Fetch the filtered results
+    recipes = query.all()
+
+    return render_template('index.html', recipes=recipes, categories=categories, stores=stores)
+
 
 @app.route('/users/signup', methods=['GET', 'POST'])
 def signup():

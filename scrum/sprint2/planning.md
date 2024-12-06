@@ -11,8 +11,6 @@ For user stories 2 and 3, Sarah will be working on admin actions, and Moe will b
 Adam will be working on user story 5.
 RJ will be working on user story 4.
 
-<<<<<<< HEAD
-=======
 Goal Statement: 
 
 
@@ -29,4 +27,3 @@ someone on actions, add, delete, update (sarah)
 US5 adam
 
 diagrams + mission statement: RJ
->>>>>>> browse
