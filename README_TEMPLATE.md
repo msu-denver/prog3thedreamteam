@@ -8,6 +8,25 @@ Use this section to outline the vision for the product, including a **use case d
 
 Describe the **user stories** for the project, ensuring each includes clear **acceptance criteria** and a **point estimate**. The **user stories** must align with the **use case diagram** and should be referred to as US#1, US#2, etc. 
 
+US#1: Story Points: 3
+    The restaurant has an Admin account able to add new items and delete old items on the menu through the back end. 
+    
+US#2: Story Points: 5
+    The restaurant has an Admin account able to update items on the menu through the back end.       
+
+US#3:  Story Points: 10
+    Restaurant customers should be able to add and remove items from their purchase cart. The purchase screen will total all added items.
+
+US#4:  Story Points: 5
+    Restaurant customers should be able to browse and sort the menu by categories: appetizers, entrees, desserts, beverages, and sides.
+
+US#5:  Story Points: 13
+    Restaurant customers should be able to save their favorite items/ previous orders to order again.
+
+US#6 (optional):  Story Points: 20
+    Restaurant customers should be able to customize orders to add or remove ingredients.
+
+
 ## Sequence Diagram
 
 At least one **user story**, unrelated to user creation or authentication, must be detailed using a **sequence diagram**.

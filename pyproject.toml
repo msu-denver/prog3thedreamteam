@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Program 3"
+version = "0.1.0"
+description = "The final project"
+authors = [
+    { name = "Sarah", email = "smcdowe4@msudenver.com" }
+]
+dependencies = [
+    "psycopg2>=2.9.0"
+]
+
+[tool.setuptools]
+packages = ["prog3"]
