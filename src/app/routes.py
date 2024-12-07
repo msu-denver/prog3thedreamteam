@@ -5,24 +5,29 @@ Student(s):
 Description: Project 2 - Incidents
 '''
 
-from flask import Blueprint, render_template, redirect, url_for, request, session
+from flask import Blueprint, render_template
+from flask import redirect, url_for, request, session
 from flask_login import login_required, login_user, logout_user, current_user
 from app import db
 from app.models import User, MysticBurger
-from app.forms import SignUpForm, LoginForm, RecipeCreateForm, RecipeUpdateForm, MenuSearchForm
+from app.forms import SignUpForm, LoginForm
+from app.forms import RecipeCreateForm, RecipeUpdateForm, MenuSearchForm
 import bcrypt
 
 # Define the blueprint
 app = Blueprint('main', __name__)
+
 
 @app.route('/')
 @app.route('/index')
 @app.route('/index.html')
 def index():
     # Get all distinct categories and stores for dropdowns
-    categories = [row[0] for row in db.session.query(MysticBurger.category).distinct()]
-    stores = [row[0] for row in db.session.query(MysticBurger.store).distinct()]
-    
+    categories = [row[0] for row in
+                  db.session.query(MysticBurger.category).distinct()]
+    stores = [row[0] for row in
+              db.session.query(MysticBurger.store).distinct()]
+
     # Start with the full query
     query = MysticBurger.query
     # Apply filters if provided
@@ -48,22 +53,30 @@ def index():
     pagination = query.paginate(page=page, per_page=per_page, error_out=False)
     recipes = pagination.items
 
-    return render_template('index.html', recipes=recipes, categories=categories, stores=stores, pagination=pagination, sort_by=sort_by)
+    return render_template('index.html', recipes=recipes,
+                           categories=categories,
+                           stores=stores,
+                           pagination=pagination,
+                           sort_by=sort_by)
+
 
 @app.route('/users/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
         if form.passwd.data == form.passwd_confirm.data:
-            hashed_passwd = bcrypt.hashpw(form.passwd.data.encode('utf-8'), bcrypt.gensalt())
-            new_user = User(id=form.id.data, name=form.name.data, admin=False, passwd=hashed_passwd)
+            hashed_passwd = bcrypt.hashpw(
+                form.passwd.data.encode('utf-8'), bcrypt.gensalt())
+            new_user = User(id=form.id.data, name=form.name.data,
+                            admin=False, passwd=hashed_passwd)
             existing_user = User.query.filter_by(id=form.id.data).first()
             if existing_user:
-                return ('User already exists')            
+                return ('User already exists')
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('main.index'))
     return render_template('signup.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -72,15 +85,18 @@ def login():
         user = User.query.filter_by(id=form.id.data).first()
         if user and bcrypt.checkpw(form.passwd.data.encode(), user.passwd):
             login_user(user)
-            print(f"User {user.id} logged in. Admin status: {user.admin}")  # Updated line
+            # Updated line
+            print(f"User {user.id} logged in. Admin status: {user.admin}")
             return redirect(url_for('main.index'))
     return render_template('login.html', form=form)
+
 
 @app.route('/users/signout', methods=['GET', 'POST'])
 @login_required
 def signout():
     logout_user()
     return redirect(url_for('main.index'))
+
 
 @app.route('/recipes/search', methods=['GET', 'POST'])
 def search_menu():
@@ -89,20 +105,24 @@ def search_menu():
 
     if form.validate_on_submit():
         if form.store.data:
-            query = query.filter(MysticBurger.store.ilike(f"%{form.store.data}%"))
+            query = query.filter(
+                MysticBurger.store.ilike(f"%{form.store.data}%"))
         if form.category.data:
-            query = query.filter(MysticBurger.category.ilike(f"%{form.category.data}%"))
+            query = query.filter(
+                MysticBurger.category.ilike(f"%{form.category.data}%"))
         if form.item.data:
-            query = query.filter(MysticBurger.item.ilike(f"%{form.item.data}%"))
+            query = query.filter(
+                MysticBurger.item.ilike(f"%{form.item.data}%"))
         if form.magic.data is not None:
             query = query.filter(MysticBurger.magic == form.magic.data)
 
     results = query.all()
     return render_template('search.html', form=form, results=results)
 
+
 @app.route('/recipes/update/<int:id>', methods=['GET', 'POST'])
 @login_required
-def update_recipe(id): # requires admin
+def update_recipe(id):  # requires admin
     if not current_user.admin:
         return 'Access Denied', 403
 
@@ -123,9 +143,10 @@ def update_recipe(id): # requires admin
         return redirect(url_for('main.index'))
     return render_template('update_recipe.html', form=form)
 
+
 @app.route('/recipes/create', methods=['GET', 'POST'])
 @login_required
-def create_recipe(): # requires admin
+def create_recipe():  # requires admin
     if not current_user.admin:
         return 'Access Denied', 403
 
@@ -149,11 +170,12 @@ def create_recipe(): # requires admin
                 magic=form.magic.data
             )
             db.session.add(new_recipe)
-        
+
         db.session.commit()
         print('Recipe added successfully!', 'success')
         return redirect(url_for('main.index'))
     return render_template('create_recipe.html', form=form)
+
 
 @app.route('/recipes/delete/<int:id>', methods=['GET', 'POST'])
 @app.route('/recipes/delete', methods=['GET', 'POST'])
@@ -199,10 +221,15 @@ def delete_recipe(id=None):  # requires admin
     form = MenuSearchForm()
     page = request.args.get('page', 1, type=int)
     pagination = MysticBurger.query.paginate(page=page, per_page=10)
-    return render_template('delete_recipe.html', form=form, recipes=pagination.items,
-    pagination=pagination, current_page=page, total_pages=pagination.pages)
+    return render_template('delete_recipe.html', form=form,
+                           recipes=pagination.items,
+                           pagination=pagination,
+                           current_page=page,
+                           total_pages=pagination.pages)
 
-#Cart
+# Cart
+
+
 @app.route('/cart')
 @login_required
 def cart():
@@ -210,15 +237,18 @@ def cart():
     total = sum(item['price'] for item in cart)
     return render_template('cart.html', cart=cart, total=total)
 
+
 @app.route('/add_to_cart/<int:item_id>', methods=['POST'])
 @login_required
 def add_to_cart(item_id):
     item = MysticBurger.query.get(item_id)
     if 'cart' not in session:
         session['cart'] = []
-    session['cart'].append({'id': item.id, 'name': item.item, 'price': item.price})
+    session['cart'].append(
+        {'id': item.id, 'name': item.item, 'price': item.price})
     session.modified = True
     return redirect(url_for('main.index'))
+
 
 @app.route('/remove_from_cart/<int:item_id>', methods=['POST'])
 @login_required
@@ -228,15 +258,3 @@ def remove_from_cart(item_id):
     session['cart'] = cart
     session.modified = True
     return redirect(url_for('main.cart'))
-
-#Testing function:
-#@app.route('/populate-db')
-#def populate_db():
-#   sample_burgers = [
-#        MysticBurger(store='Mystic Store 1', category='Burgers', item='Mystic Burger', description='A magical burger', price=9.99, qty=10, magic=True),
-#        MysticBurger(store='Mystic Store 2', category='Drinks', item='Mystic Shake', description='A magical shake', price=4.99, qty=20, magic=True),
-#        MysticBurger(store='Mystic Store 3', category='Sides', item='Mystic Fries', description='Magical fries', price=2.99, qty=30, magic=False)
-#    ]
-#    db.session.bulk_save_objects(sample_burgers)
-#    db.session.commit()
-#    return "Database populated."

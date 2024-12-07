@@ -6,10 +6,11 @@ import bcrypt
 
 app = create_app()
 
+
 def load_data():
     # Read the CSV file
     df = pd.read_csv('/app/Database/mysticburgers.csv')  # Updated path
-    
+
     # Clean up column names
     df.columns = df.columns.str.strip()
 
@@ -39,7 +40,7 @@ def load_data():
                 magic=row['Magic']
             )
             db.session.add(burger)
-        
+
         # Delete all previous users
         print("Deleting all users...")
         db.session.query(User).delete()
@@ -55,9 +56,10 @@ def load_data():
             passwd=bcrypt.hashpw('admin'.encode('utf-8'), bcrypt.gensalt())
         )
         db.session.add(admin_user)
-        
+
         db.session.commit()
         print("Admin user created.")
+
 
 if __name__ == '__main__':
     load_data()

@@ -10,11 +10,14 @@ from app.extensions import db
 from app.models import User
 import os
 
+
 def create_app():
     app = Flask('Menu Web App')
     app.secret_key = os.getenv('SECRET_KEY', 'default_secret_key')
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://sarah:sarah@localhost:5433/mysticmenu_db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+        'DATABASE_URL', 'postgresql://\
+        sarah:sarah@localhost:5433/mysticmenu_db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
@@ -35,11 +38,13 @@ def create_app():
 
     return app
 
+
 app = create_app()
 
 # Initialize LoginManager
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 
 @login_manager.user_loader
 def load_user(user_id):
