@@ -1,95 +1,135 @@
 {% extends 'base.html' %}
 {% block main %}
-    <!-- Should function like list page from Prog 2. Only logged in users should see 'add to cart' -->
-    Welcome to Mystic Burgers! 
-    <p />
-    Sign up / Log in
-<!DOCTYPE html>
+    <h1>Welcome to Mystic Burgers!</h1> 
     <script type="text/javascript">
         function simple_action(target) {
-            window.location = target
+            window.location = target;
         }
     </script>
-    <html lang="en">
-        <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Incident Results</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    <body>
-        <header>
-            <nav>     
-                <button type="button" class="button" onclick="simple_action('{{ url_for('main.login') }}')">Login</button>
-                <button type="button" class="button" onclick="simple_action('{{ url_for('main.signup') }}')">Sign Up</button>
-            </nav>
-        </header>
-
-        <!-- Search Form -->
-        <section class="search-section">
-            <h1>Search</h1>
-            <form method="get" action="/">
-                <div> <!-- Text search box -->
-                    <label for="search">Search by Item Name:</label>
-                    <input type="text" name="search" placeholder="Search by category or item" value="{{ request.args.get('search', '') }}">
-                </div>
-                <div> <!-- Dropdown for categories -->
-                    <label for="category">Filter by Category:</label>
-                    <select name="category">
-                        <option value="">Select Category</option>
-                        {% for category in categories %}
-                            <option value="{{ category }}" {% if request.args.get('category') == category %}selected{% endif %}>{{ category }}</option>
-                        {% endfor %}
-                    </select>                
-                </div>
-                <div><!-- Dropdown for restaurants -->
-                    <label for="store">Filter by Restaurant:</label>
-                    <select name="store">
-                        <option value="">Select Restaurant</option>
-                        {% for store in stores %}
-                            <option value="{{ store }}" {% if request.args.get('store') == store %}selected{% endif %}>{{ store }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <br>
-                <button type="submit">Search</button>
-            </form>
-        </section>
-
-        <section class="results-section">
-            <h1>Menu</h1>
-            {% if recipes %}
+    <header>
+        <nav>
+            {% if current_user.is_authenticated %}
+                <button type="button" class="button" onclick="simple_action('{{ url_for('main.signout') }}')" aria-label="Sign Out">Sign Out</button>
+                {% if not current_user.admin %}
+                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.cart') }}')" aria-label="Cart">Cart</button>
+                {% endif %}
+                {% if current_user.admin %}
+                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.create_recipe') }}')" aria-label="Create A Recipe">Create A Recipe</button>
+                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.delete_recipe') }}')" aria-label="Delete Recipes">Delete Recipes</button>
+                    <button type="button" class="button" onclick="simple_action('{{ url_for('main.index') }}')" aria-label="List All Recipes">List All Recipes</button>
+                {% endif %}
+            {% else %}
+                <button type="button" class="button" onclick="simple_action('{{ url_for('main.login') }}')" aria-label="Login">Login</button>
+                <button type="button" class="button" onclick="simple_action('{{ url_for('main.signup') }}')" aria-label="Sign Up">Sign Up</button>
+            {% endif %}
+        </nav>
+    </header>
+    <section class="results-section">
+        <h1>Search</h1>
+        <form method="get" action="/">
+            <div>
+                <label for="search">Search by Item Name:</label>
+                <input type="text" name="search" placeholder="Search by category or item" value="{{ request.args.get('search', '') }}">
+            </div>
+            <div>
+                <label for="category">Filter by Category:</label>
+                <select name="category">
+                    <option value="">Select Category</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}" {% if request.args.get('category') == category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>                
+            </div>
+            <div>
+                <label for="store">Filter by Restaurant:</label>
+                <select name="store">
+                    <option value="">Select Restaurant</option>
+                    {% for store in stores %}
+                        <option value="{{ store }}" {% if request.args.get('store') == store %}selected{% endif %}>{{ store }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <button type="submit">Search</button>
+        </form>
+        <h1>Menu</h1>
+        {% if recipes %}
+            <form method="POST" action="{{ url_for('main.delete_recipe') }}">
                 <table>
                     <thead>
                         <tr>
+                            {% if current_user.admin %}
+                                <th>ID</th>
+                            {% endif %}
                             <th>Item</th>
                             <th>Category</th>
                             <th>Magic</th>
                             <th>Description</th>
                             <th>Price</th>
                             <th>Store</th>
-                            <th>Quantity</th>
+                            {% if current_user.is_authenticated %}
+                                <th>Actions</th>
+                                {% if current_user.admin %}
+                                    <th>Quantity</th>
+                                {% endif %}
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
                     {% for recipe in recipes %}
                         <tr class="{{ loop.index % 2 == 0 and 'even_row' or 'odd_row' }}">
+                            {% if current_user.admin %}
+                                <td>{{ recipe.id }}</td>
+                            {% endif %}
                             <td>{{ recipe.item }}</td>
                             <td>{{ recipe.category }}</td>
                             <td>{{ recipe.magic }}</td>
                             <td>{{ recipe.description }}</td>
                             <td>{{ recipe.price }}</td>
                             <td>{{ recipe.store }}</td>
-                            <td>{{ recipe.quantity }}</td>
+                            {% if current_user.is_authenticated %}
+                                <td>
+                                    {% if not current_user.admin %}
+                                        <form method="POST" action="{{ url_for('main.add_to_cart', item_id=recipe.id) }}">
+                                            <button type="submit" class="button" aria-label="Add to Cart">Add to Cart</button>
+                                        </form>
+                                    {% endif %}
+                                    {% if current_user.admin %}
+                                        <form method="GET" action="{{ url_for('main.update_recipe', id=recipe.id) }}">
+                                            <button type="submit" class="button" aria-label="Update Recipe">Update Recipe</button>
+                                        </form>
+                                        <td>{{ recipe.qty }}</td>
+                                    {% endif %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-            {% else %}
-                <p>No menu items are found matching your search criteria.</p>
-            {% endif %}
-            {% if current_user.is_authenticated %}
-                <button type="button" class="button" onclick="simple_action('{{ url_for('main.signout') }}')">Sign Out</button>
-            {% endif %}
-        </section>
+            </form>
+            <div class="pagination">
+                {% if pagination.has_prev %}
+                    <a href="{{ url_for('main.index', page=pagination.prev_num, search=request.args.get('search'), category=request.args.get('category'), store=request.args.get('store'), sort_by=sort_by) }}">Previous</a>
+                {% endif %}
+
+                {% for page_num in pagination.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num == pagination.page %}
+                            <strong>{{ page_num }}</strong>
+                        {% else %}
+                            <a href="{{ url_for('main.index', page=page_num, search=request.args.get('search'), category=request.args.get('category'), store=request.args.get('store'), sort_by=sort_by) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+
+                {% if pagination.has_next %}
+                    <a href="{{ url_for('main.index', page=pagination.next_num, search=request.args.get('search'), category=request.args.get('category'), store=request.args.get('store'), sort_by=sort_by) }}">Next</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>No menu items are found matching your search criteria.</p>
+        {% endif %}
+    </section>
 {% endblock %}
