@@ -8,5 +8,12 @@
             window.location = target
         }
     </script>
+    <nav>
+        <button type="button" class="button" onclick="simple_action('{{ url_for('main.update_recipe') }}')">Update Recipe</button>
+        <button type="button" class="button" onclick="simple_action('{{ url_for('main.create_recipe') }}')">Create Recipe</button>
+        <button type="button" class="button" onclick="simple_action('{{ url_for('main.delete_recipe') }}')">Delete Recipe</button>
+        <button type="button" class="button" onclick="simple_action('{{ url_for('main.index') }}')">View Menu</button>
+        <button type="button" class="button" onclick="simple_action('{{ url_for('main.signout') }}')">Sign Out</button>
+    </nav>
 
 {% endblock %}

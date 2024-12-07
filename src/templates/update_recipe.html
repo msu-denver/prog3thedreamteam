@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block main %}
+<h1>Update Recipe</h1>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.category.label }}<br>
+        {{ form.category }}
+    </div>
+    <div>
+        {{ form.item.label }}<br>
+        {{ form.item }}
+    </div>
+    <div>
+        {{ form.description.label }}<br>
+        {{ form.description }}
+    </div>
+    <div>
+        {{ form.price.label }}<br>
+        {{ form.price }}
+    </div>
+    <div>
+        {{ form.qty_arcadia_bay.label }}<br>
+        {{ form.qty_arcadia_bay }}
+    </div>
+    <div>
+        {{ form.qty_elysium_district.label }}<br>
+        {{ form.qty_elysium_district }}
+    </div>
+    <div>
+        {{ form.qty_mystic_falls.label }}<br>
+        {{ form.qty_mystic_falls }}
+    </div>
+    <div>
+        {{ form.qty_neo_tokyo.label }}<br>
+        {{ form.qty_neo_tokyo }}
+    </div>
+    <div>
+        {{ form.qty_cyber_city.label }}<br>
+        {{ form.qty_cyber_city }}
+    </div>
+    <div>
+        {{ form.magic.label }}<br>
+        {{ form.magic }}
+    </div>
+    <div>
+        {{ form.submit }}
+    </div>
+</form>
+{% endblock %}

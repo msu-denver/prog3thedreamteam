@@ -5,10 +5,10 @@ Student(s):
 Description: Project 2 - Incidents
 '''
 
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, session
 from flask_login import login_required, login_user, logout_user, current_user
 from app import db
-from app.models import User, Recipe, MysticBurger
+from app.models import User, MysticBurger
 from app.forms import SignUpForm, LoginForm, RecipeCreateForm, RecipeUpdateForm, MenuSearchForm
 import bcrypt
 
@@ -18,12 +18,34 @@ app = Blueprint('main', __name__)
 @app.route('/')
 @app.route('/index')
 @app.route('/index.html')
-def index(): 
+def index():
+    categories = [row[0] for row in db.session.query(MysticBurger.category).distinct()]
+    stores = [row[0] for row in db.session.query(MysticBurger.store).distinct()]
+    
+    query = MysticBurger.query
+
+    search = request.args.get('search')
+    if search:
+        query = query.filter(MysticBurger.item.ilike(f"%{search}%"))
+
+    category = request.args.get('category')
+    if category:
+        query = query.filter(MysticBurger.category == category)
+
+    store = request.args.get('store')
+    if store:
+        query = query.filter(MysticBurger.store == store)
+
+    sort_by = request.args.get('sort_by')
+    if sort_by:
+        query = query.filter(MysticBurger.store == sort_by)
+
     page = request.args.get('page', 1, type=int)
     per_page = 10
-    pagination = MysticBurger.query.paginate(page=page, per_page=per_page, error_out=False)
+    pagination = query.paginate(page=page, per_page=per_page, error_out=False)
     recipes = pagination.items
-    return render_template('index.html', recipes=recipes, pagination=pagination)
+
+    return render_template('index.html', recipes=recipes, categories=categories, stores=stores, pagination=pagination, sort_by=sort_by)
 
 @app.route('/users/signup', methods=['GET', 'POST'])
 def signup():
@@ -47,19 +69,8 @@ def login():
         user = User.query.filter_by(id=form.id.data).first()
         if user and bcrypt.checkpw(form.passwd.data.encode(), user.passwd):
             login_user(user)
-            return redirect(url_for('main.dashboard'))
+            return redirect(url_for('main.index'))
     return render_template('login.html', form=form)
-
-@app.route('/dashboard', methods=['GET'])
-@login_required
-def dashboard():
-    page = request.args.get('page', 1, type=int)
-    per_page = 10
-    pagination = MysticBurger.query.paginate(page=page, per_page=per_page, error_out=False)
-    recipes = pagination.items
-    stores = ['Arcadia Bay', 'Elysium District', 'Mystic Falls', 'Neo Tokyo', 'Cyber City']
-    sort_by = request.args.get('sort_by', 'Arcadia Bay')
-    return render_template('index.html', recipes=recipes, pagination=pagination, stores=stores, sort_by=sort_by)
 
 @app.route('/users/signout', methods=['GET', 'POST'])
 @login_required
@@ -171,6 +182,32 @@ def delete_recipe(id): # requires admin
                                pagination=pagination, current_page=page, total_pages=pagination.pages)
     else:
         return 'User does not have credentials...Access Denied', 403
+
+@app.route('/add_to_cart/<int:item_id>', methods=['POST'])
+@login_required
+def add_to_cart(item_id):
+    item = MysticBurger.query.get(item_id)
+    if 'cart' not in session:
+        session['cart'] = []
+    session['cart'].append({'id': item.id, 'name': item.item, 'price': item.price})
+    session.modified = True
+    return redirect(url_for('main.index'))
+
+@app.route('/cart')
+@login_required
+def cart():
+    cart = session.get('cart', [])
+    total = sum(item['price'] for item in cart)
+    return render_template('cart.html', cart=cart, total=total)
+
+@app.route('/remove_from_cart/<int:item_id>', methods=['POST'])
+@login_required
+def remove_from_cart(item_id):
+    cart = session.get('cart', [])
+    cart = [item for item in cart if item['id'] != item_id]
+    session['cart'] = cart
+    session.modified = True
+    return redirect(url_for('main.cart'))
 
 
 
