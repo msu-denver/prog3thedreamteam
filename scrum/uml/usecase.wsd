@@ -1,0 +1,17 @@
+@startuml usecase
+left to right direction
+
+actor Customer
+actor Admin 
+
+Customer <|-- Admin
+
+package "Mystic Burgers Menu" {
+    :Admin: --> (Update Items)
+    :Admin: --> (Add New Items)
+    :Admin: --> (Delete Old Items)
+    :Customer: --> (Add and Remove Items)
+    :Customer: --> (Browse and Sort Menu)
+    :Customer: --> (Save Favorite Items)
+}
+@enduml

@@ -6,7 +6,7 @@ Description: Project 3 - Final Project
 '''
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField, FloatField, BooleanField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField, FloatField, BooleanField, HiddenField, SelectMultipleField
 from wtforms.validators import DataRequired, EqualTo, Optional
 from app import db
 
@@ -55,14 +55,20 @@ class RecipeUpdateForm(FlaskForm):
         ('sides', 'Sides'),
     ], validators=[DataRequired()])
     store = SelectField('Store', choices=[
-        ('Arcadia Bay', 'Arcadia Bay'), ('Elysium District', 'Elysium District'),
-        ('Mystic Falls', 'Mystic Falls'), ('Neo Tokyo', 'Neo Tokyo'),
+        ('Arcadia Bay', 'Arcadia Bay'), 
+        ('Elysium District', 'Elysium District'),
+        ('Mystic Falls', 'Mystic Falls'), 
+        ('Neo Tokyo', 'Neo Tokyo'),
         ('Cyber City', 'Cyber City')
     ], validators=[DataRequired()])
     item = StringField('Item', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
     price = FloatField('Price', validators=[DataRequired()])
-    qty = IntegerField('Quantity', validators=[DataRequired()])
+    qty_arcadia_bay = IntegerField('Quantity (Arcadia Bay)', validators=[DataRequired()])
+    qty_elysium_district = IntegerField('Quantity (Elysium District)', validators=[DataRequired()])
+    qty_mystic_falls = IntegerField('Quantity (Mystic Falls)', validators=[DataRequired()])
+    qty_neo_tokyo = IntegerField('Quantity (Neo Tokyo)', validators=[DataRequired()])
+    qty_cyber_city = IntegerField('Quantity (Cyber City)', validators=[DataRequired()])
     magic = BooleanField('Magic', validators=[Optional()])
     submit = SubmitField('Update Recipe')
 
@@ -82,3 +88,7 @@ class MenuSearchForm(FlaskForm):
     menu_item = StringField('Item', validators=[Optional()])
     menu_magic = SelectField('Magic', choices=[('both', 'Both'), ('true', 'Yes'), ('false', 'No')], validators=[Optional()])
     submit = SubmitField('Search')
+
+    class MultiDeleteForm(FlaskForm):
+        item_ids = SelectMultipleField('Select Items to Delete', coerce=int, validators=[DataRequired()])
+        submit = SubmitField('Delete Selected Items')

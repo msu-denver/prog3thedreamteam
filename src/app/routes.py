@@ -69,6 +69,7 @@ def login():
         user = User.query.filter_by(id=form.id.data).first()
         if user and bcrypt.checkpw(form.passwd.data.encode(), user.passwd):
             login_user(user)
+            print(f"User {user.id} logged in. Admin status: {user.admin}")  # Updated line
             return redirect(url_for('main.index'))
     return render_template('login.html', form=form)
 
@@ -96,13 +97,60 @@ def search_menu():
     results = query.all()
     return render_template('search.html', form=form, results=results)
 
-@app.route('/admin_dashboard/update/<int:id>', methods=['GET', 'POST'])
+@app.route('/recipes/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_recipe(id): # requires admin
+    if not current_user.admin:
+        return 'Access Denied', 403
     form = RecipeUpdateForm()
+    recipe = MysticBurger.query.get(id)
+    if not recipe:
+        return 'Recipe not found', 404
+
     if form.validate_on_submit():
-        if current_user.is_admin:
-            stores = [
+        recipe.category = form.category.data
+        recipe.item = form.item.data
+        recipe.description = form.description.data
+        recipe.price = form.price.data
+        recipe.magic = form.magic.data
+
+        # Update quantities for each store
+        recipe.quantities = {
+            'Arcadia Bay': form.qty_arcadia_bay.data,
+            'Elysium District': form.qty_elysium_district.data,
+            'Mystic Falls': form.qty_mystic_falls.data,
+            'Neo Tokyo': form.qty_neo_tokyo.data,
+            'Cyber City': form.qty_cyber_city.data
+        }
+
+        db.session.commit()
+        print('Recipe updated successfully!', 'success')
+        return redirect(url_for('main.index'))
+
+    # Pre-fill the form with the existing recipe data
+    form.id.data = recipe.id
+    form.category.data = recipe.category
+    form.item.data = recipe.item
+    form.description.data = recipe.description
+    form.price.data = recipe.price
+    form.magic.data = recipe.magic
+    form.qty_arcadia_bay.data = recipe.quantities.get('Arcadia Bay', 0)
+    form.qty_elysium_district.data = recipe.quantities.get('Elysium District', 0)
+    form.qty_mystic_falls.data = recipe.quantities.get('Mystic Falls', 0)
+    form.qty_neo_tokyo.data = recipe.quantities.get('Neo Tokyo', 0)
+    form.qty_cyber_city.data = recipe.quantities.get('Cyber City', 0)
+
+    return render_template('update_recipe.html', form=form, recipe=recipe)
+
+@app.route('/recipes/create', methods=['GET', 'POST'])
+@login_required
+def create_recipe(): # requires admin
+    if not current_user.admin:
+        return 'Access Denied', 403
+
+    form = RecipeCreateForm()
+    if form.validate_on_submit():
+        stores = [
             ('Arcadia Bay', form.qty_arcadia_bay.data),
             ('Elysium District', form.qty_elysium_district.data),
             ('Mystic Falls', form.qty_mystic_falls.data),
@@ -126,62 +174,60 @@ def update_recipe(id): # requires admin
         return redirect(url_for('main.index'))
     return render_template('create_recipe.html', form=form)
 
-@app.route('/admin_dashboard/create', methods=['GET', 'POST'])
+@app.route('/recipes/delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/recipes/delete', methods=['GET', 'POST'])
 @login_required
-def create_recipe(): # requires admin
-    form = RecipeCreateForm()
-    if form.validate_on_submit():
-        if current_user.is_admin:
-            stores = [
-            ('Arcadia Bay', form.qty_arcadia_bay.data),
-            ('Elysium District', form.qty_elysium_district.data),
-            ('Mystic Falls', form.qty_mystic_falls.data),
-            ('Neo Tokyo', form.qty_neo_tokyo.data),
-            ('Cyber City', form.qty_cyber_city.data)
-            ]
-            for store, qty in stores:
-                new_recipe = MysticBurger(
-                    category=form.category.data,
-                    store=store,
-                    item=form.item.data,
-                    description=form.description.data,
-                    price=form.price.data,
-                    qty=qty,
-                    magic=form.magic.data
-            )
-            db.session.add(new_recipe)
-            
-            db.session.commit()
-            print('Recipe added successfully!', 'success')
-            return redirect(url_for('main.index'))
-        return render_template('create_recipe.html', form=form)
-    
+def delete_recipe(id=None):  # requires admin
+    if not current_user.admin:
+        return 'Access Denied', 403
 
-@app.route('/admin_dashboard/delete/<int:id>', methods=['GET', 'POST'])
-@login_required
-def delete_recipe(id): # requires admin
-    if current_user.is_admin:
-        recipe = MysticBurger.query.get(id)
-        if recipe:
-            try:
-                db.session.delete(recipe)
-                db.session.commit()
-                db.session.expire_all()
-                print('recipe successfully deleted.')
-            except Exception as e:
-                db.session.rollback()
-                print(f"Error occurred during deletion: {e}")
-                return 'An error occurred while deleting the incident.', 500
+    if request.method == 'POST':
+        if id:
+            # Single delete
+            recipe = MysticBurger.query.get(id)
+            if recipe:
+                try:
+                    db.session.delete(recipe)
+                    db.session.commit()
+                    db.session.expire_all()
+                    print('Recipe successfully deleted.')
+                except Exception as e:
+                    db.session.rollback()
+                    print(f"Error occurred during deletion: {e}")
+                    return 'An error occurred while deleting the recipe.', 500
+            else:
+                print('Recipe not found.')
         else:
-            print('Incident not found.')
-        # Refresh the incident list with pagination after deletion
-        form = MenuSearchForm()
-        page = request.args.get('page', 1, type=int)
-        pagination = MysticBurger.query.paginate(page=page, per_page=10)
-        return render_template('index.html', form=form, incidents=pagination.items,
-                               pagination=pagination, current_page=page, total_pages=pagination.pages)
-    else:
-        return 'User does not have credentials...Access Denied', 403
+            # Multiple delete
+            item_ids = request.form.getlist('item_ids')
+            if item_ids:
+                try:
+                    for item_id in item_ids:
+                        recipe = MysticBurger.query.get(item_id)
+                        if recipe:
+                            db.session.delete(recipe)
+                    db.session.commit()
+                    db.session.expire_all()
+                    print('Recipes successfully deleted.')
+                except Exception as e:
+                    db.session.rollback()
+                    print(f"Error occurred during deletion: {e}")
+                    return 'An error occurred while deleting the recipes.', 500
+
+    # Refresh menu with pagination after deletion
+    form = MenuSearchForm()
+    page = request.args.get('page', 1, type=int)
+    pagination = MysticBurger.query.paginate(page=page, per_page=10)
+    return render_template('delete_recipe.html', form=form, recipes=pagination.items,
+    pagination=pagination, current_page=page, total_pages=pagination.pages)
+
+#Cart
+@app.route('/cart')
+@login_required
+def cart():
+    cart = session.get('cart', [])
+    total = sum(item['price'] for item in cart)
+    return render_template('cart.html', cart=cart, total=total)
 
 @app.route('/add_to_cart/<int:item_id>', methods=['POST'])
 @login_required
@@ -193,13 +239,6 @@ def add_to_cart(item_id):
     session.modified = True
     return redirect(url_for('main.index'))
 
-@app.route('/cart')
-@login_required
-def cart():
-    cart = session.get('cart', [])
-    total = sum(item['price'] for item in cart)
-    return render_template('cart.html', cart=cart, total=total)
-
 @app.route('/remove_from_cart/<int:item_id>', methods=['POST'])
 @login_required
 def remove_from_cart(item_id):
@@ -208,8 +247,6 @@ def remove_from_cart(item_id):
     session['cart'] = cart
     session.modified = True
     return redirect(url_for('main.cart'))
-
-
 
 #Testing function:
 #@app.route('/populate-db')

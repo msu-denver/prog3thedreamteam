@@ -1,0 +1,49 @@
+@startuml classdiagram
+
+class User {
+    id: int
+    username: str
+    password: str
+}
+
+class Admin {
+    +updateItems()
+    +addNewItems()
+    +deleteOldItems()
+}
+
+class Customer {
+    +addToCart()
+    +removeFromCart()
+    +browseMenu()
+    +sortMenu()
+    +saveFavoriteItems()
+}
+
+class MenuItem {
+    id: int
+    name: str
+    description: str
+    price: float
+    category: Category
+    available: bool
+}
+
+class Menu {
+    items: List[MenuItem]
+    addItem(MenuItem)
+    removeItem(MenuItem)
+}
+
+class Category {
+    id: int
+    name: str
+}
+
+User --|> Admin
+User --|> Customer
+Customer "1" o-- "*" MenuItem : interactions
+Admin "1" o-- "*" MenuItem : management
+MenuItem "N" o-- "1" Category : category
+
+@enduml
