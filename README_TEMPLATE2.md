@@ -18,7 +18,7 @@ Dining out can be a hassle when it comes to finding what you want on the menu, a
 ## User Stories
 
 US#1: Story Points: 3
-    The website lists all items curently available by store on the homepage with no log inn required
+    The website lists all items curently available by store on the homepage with no log in required
  
 US#2: Story Points: 3
     The restaurant has an Admin account able to add new items and delete old items on the menu through the back end.
@@ -40,20 +40,17 @@ US#6 (optional):  Story Points: 13
 
 ![pics/sequence.png](pics/sequence.png)
 
-
 ## Model 
 
 ![pics/class.png](pics/class.png)
-
-
 
 # Development Process 
 
 This section should describe, in general terms, how Scrum was used in this project. Include a table summarizing the division of the project into sprints, the user story goals planned for each sprint, the user stories actually completed, and the start and end dates of each sprint. You may also add any relevant observations about the sprints as you see fit.
 
 |Sprint#|Goals|Start|End|Done|Observations|
-|---|---|---|---|---|---|
-|1|US#1, US#2, ...|mm/dd/23|mm/dd/23|US#1|...|
+![pics/testing.png](pics/testing.png)
+
 
 As in Project 2, you should take notes on the major sprint meetings: planning, daily scrums, review, and retrospective. Use the scrum folder and the shared templates to record your notes.
 
@@ -66,5 +63,5 @@ In this section, share the results of the tests performed to verify the quality 
 The final product must demonstrate the integrity of at least 5 out of the 6 planned user stories. It should be packaged as a Docker image and be deployable using:
 
 ```
-docker compose up
+docker-compose up
 ```

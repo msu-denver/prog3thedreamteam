@@ -19,11 +19,13 @@ app = Blueprint('main', __name__)
 @app.route('/index')
 @app.route('/index.html')
 def index():
+    # Get all distinct categories and stores for dropdowns
     categories = [row[0] for row in db.session.query(MysticBurger.category).distinct()]
     stores = [row[0] for row in db.session.query(MysticBurger.store).distinct()]
     
+    # Start with the full query
     query = MysticBurger.query
-
+    # Apply filters if provided
     search = request.args.get('search')
     if search:
         query = query.filter(MysticBurger.item.ilike(f"%{search}%"))
@@ -40,6 +42,7 @@ def index():
     if sort_by:
         query = query.filter(MysticBurger.store == sort_by)
 
+    # Add pagination
     page = request.args.get('page', 1, type=int)
     per_page = 10
     pagination = query.paginate(page=page, per_page=per_page, error_out=False)
@@ -102,45 +105,23 @@ def search_menu():
 def update_recipe(id): # requires admin
     if not current_user.admin:
         return 'Access Denied', 403
-    form = RecipeUpdateForm()
-    recipe = MysticBurger.query.get(id)
-    if not recipe:
-        return 'Recipe not found', 404
 
+    recipe = MysticBurger.query.get_or_404(id)
+    form = RecipeUpdateForm(obj=recipe)
     if form.validate_on_submit():
         recipe.category = form.category.data
         recipe.item = form.item.data
         recipe.description = form.description.data
         recipe.price = form.price.data
+        recipe.qty_arcadia_bay = form.qty_arcadia_bay.data
+        recipe.qty_elysium_district = form.qty_elysium_district.data
+        recipe.qty_mystic_falls = form.qty_mystic_falls.data
+        recipe.qty_neo_tokyo = form.qty_neo_tokyo.data
+        recipe.qty_cyber_city = form.qty_cyber_city.data
         recipe.magic = form.magic.data
-
-        # Update quantities for each store
-        recipe.quantities = {
-            'Arcadia Bay': form.qty_arcadia_bay.data,
-            'Elysium District': form.qty_elysium_district.data,
-            'Mystic Falls': form.qty_mystic_falls.data,
-            'Neo Tokyo': form.qty_neo_tokyo.data,
-            'Cyber City': form.qty_cyber_city.data
-        }
-
         db.session.commit()
-        print('Recipe updated successfully!', 'success')
         return redirect(url_for('main.index'))
-
-    # Pre-fill the form with the existing recipe data
-    form.id.data = recipe.id
-    form.category.data = recipe.category
-    form.item.data = recipe.item
-    form.description.data = recipe.description
-    form.price.data = recipe.price
-    form.magic.data = recipe.magic
-    form.qty_arcadia_bay.data = recipe.quantities.get('Arcadia Bay', 0)
-    form.qty_elysium_district.data = recipe.quantities.get('Elysium District', 0)
-    form.qty_mystic_falls.data = recipe.quantities.get('Mystic Falls', 0)
-    form.qty_neo_tokyo.data = recipe.quantities.get('Neo Tokyo', 0)
-    form.qty_cyber_city.data = recipe.quantities.get('Cyber City', 0)
-
-    return render_template('update_recipe.html', form=form, recipe=recipe)
+    return render_template('update_recipe.html', form=form)
 
 @app.route('/recipes/create', methods=['GET', 'POST'])
 @login_required

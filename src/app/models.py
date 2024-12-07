@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
 
     def __str__(self):
         return f'{self.id}, {self.name}'
-
+  
 class RecipeType(db.Model):
     __tablename__ = 'recipe_types'
     code = db.Column(db.Integer, primary_key=True)
@@ -35,7 +35,7 @@ class RecipeType(db.Model):
 
 class Recipe(db.Model):
     __tablename__ = 'recipes'
-    id = db.Column(db.Integer, primary_key=True)  # Added primary key
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     recipe_type_code = db.Column(db.Integer, db.ForeignKey('recipe_types.code'))
     recipe_type = db.relationship('RecipeType', foreign_keys=[recipe_type_code])
@@ -45,13 +45,13 @@ class Recipe(db.Model):
 class MysticBurger(db.Model):
     __tablename__ = 'mysticburgers'
     id = db.Column(db.Integer, primary_key=True)
-    store = db.Column(db.String(64))
-    category = db.Column(db.String(64))
-    item = db.Column(db.String(64))
-    description = db.Column(db.String(256))
-    price = db.Column(db.Float)
-    qty = db.Column(db.Integer)
-    magic = db.Column(db.Boolean)
+    store = db.Column(db.String(64), nullable=False)
+    category = db.Column(db.String(64), nullable=False)
+    item = db.Column(db.String(64), nullable=False)
+    description = db.Column(db.String(256), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    qty = db.Column(db.Integer, nullable=False)
+    magic = db.Column(db.Boolean, nullable=False)
 
     def __str__(self):
         return f'{self.store}, {self.category}, {self.item}, {self.description}, {self.price}, {self.qty}, {self.magic}'

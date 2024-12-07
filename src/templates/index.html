@@ -69,6 +69,9 @@
                             <th>Store</th>
                             {% if current_user.is_authenticated %}
                                 <th>Actions</th>
+                                {% if current_user.admin %}
+                                    <th>Quantity</th>
+                                {% endif %}
                             {% endif %}
                         </tr>
                     </thead>
@@ -95,6 +98,7 @@
                                         <form method="GET" action="{{ url_for('main.update_recipe', id=recipe.id) }}">
                                             <button type="submit" class="button" aria-label="Update Recipe">Update Recipe</button>
                                         </form>
+                                        <td>{{ recipe.qty }}</td>
                                     {% endif %}
                                 </td>
                             {% endif %}

@@ -6,7 +6,7 @@ Description: Project 3 - Final Project
 '''
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField, FloatField, BooleanField, HiddenField, SelectMultipleField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField, FloatField, BooleanField, SelectMultipleField
 from wtforms.validators import DataRequired, EqualTo, Optional
 from app import db
 
@@ -47,19 +47,11 @@ class RecipeCreateForm(FlaskForm):
     submit = SubmitField('Add Menu Item')
     
 class RecipeUpdateForm(FlaskForm):
-    id = HiddenField('ID', validators=[DataRequired()])
     category = SelectField('Category', choices=[
         ('burgers', 'Burgers'), 
         ('desserts', 'Desserts'), 
         ('drinks', 'Drinks'),
         ('sides', 'Sides'),
-    ], validators=[DataRequired()])
-    store = SelectField('Store', choices=[
-        ('Arcadia Bay', 'Arcadia Bay'), 
-        ('Elysium District', 'Elysium District'),
-        ('Mystic Falls', 'Mystic Falls'), 
-        ('Neo Tokyo', 'Neo Tokyo'),
-        ('Cyber City', 'Cyber City')
     ], validators=[DataRequired()])
     item = StringField('Item', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
@@ -70,7 +62,7 @@ class RecipeUpdateForm(FlaskForm):
     qty_neo_tokyo = IntegerField('Quantity (Neo Tokyo)', validators=[DataRequired()])
     qty_cyber_city = IntegerField('Quantity (Cyber City)', validators=[DataRequired()])
     magic = BooleanField('Magic', validators=[Optional()])
-    submit = SubmitField('Update Recipe')
+    submit = SubmitField('Update Item')
 
 class MenuSearchForm(FlaskForm):
     menu_category = SelectField('Actor Type', choices=[
