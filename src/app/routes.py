@@ -1,7 +1,7 @@
 '''
 CS3250 - Software Development Methods and Tools - Fall 2024
 Instructor: Thyago Mota
-Student(s):
+Student(s): The Dream Team
 Description: Project 2 - Incidents
 '''
 
