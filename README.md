@@ -53,6 +53,9 @@ This section should describe, in general terms, how Scrum was used in this proje
 
 # Testing 
 
+blackwhitetesting.png
+![pics/blackwhitetesting.png](pics/blackwhitetesting.png)
+
 Name: Black-box Test     Stmts   Miss  Cover
 -------------------------------------------
 src/app/__init__.py        29      6    79%
