@@ -1,6 +1,6 @@
 # Daily Scrums
 
-## 12/5/24
+## 12/6/24
 
 Participants: Adam, Sarah
 
