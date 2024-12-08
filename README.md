@@ -57,6 +57,16 @@ As in Project 2, you should take notes on the major sprint meetings: planning, d
 # Testing 
 
 In this section, share the results of the tests performed to verify the quality of the developed product, including the test coverage in relation to the written code. There is no minimum code coverage requirement, but ensure there is at least some coverage through one white-box test and one black-box test.
+Name: Black box tests   Stmts   Miss  Cover
+-------------------------------------------
+src/app/__init__.py        29      6    79%
+src/app/extensions.py       4      0   100%
+src/app/forms.py           53      0   100%
+src/app/models.py          42      5    88%
+src/app/routes.py         174    133    24%
+tests/test_routes.py       59     47    20%
+-------------------------------------------
+TOTAL                     361    191    47%
 
 # Deployment 
 
