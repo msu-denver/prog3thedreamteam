@@ -14,7 +14,6 @@ from app.forms import SignUpForm, LoginForm
 from app.forms import RecipeCreateForm, RecipeUpdateForm, MenuSearchForm
 import bcrypt
 
-# Define the blueprint
 app = Blueprint('main', __name__)
 
 
@@ -22,15 +21,12 @@ app = Blueprint('main', __name__)
 @app.route('/index')
 @app.route('/index.html')
 def index():
-    # Get all distinct categories and stores for dropdowns
     categories = [row[0] for row in
                   db.session.query(MysticBurger.category).distinct()]
     stores = [row[0] for row in
               db.session.query(MysticBurger.store).distinct()]
 
-    # Start with the full query
     query = MysticBurger.query
-    # Apply filters if provided
     search = request.args.get('search')
     if search:
         query = query.filter(MysticBurger.item.ilike(f"%{search}%"))
@@ -47,7 +43,7 @@ def index():
     if sort_by:
         query = query.filter(MysticBurger.store == sort_by)
 
-    # Add pagination
+    # pagination
     page = request.args.get('page', 1, type=int)
     per_page = 10
     pagination = query.paginate(page=page, per_page=per_page, error_out=False)
@@ -85,7 +81,6 @@ def login():
         user = User.query.filter_by(id=form.id.data).first()
         if user and bcrypt.checkpw(form.passwd.data.encode(), user.passwd):
             login_user(user)
-            # Updated line
             print(f"User {user.id} logged in. Admin status: {user.admin}")
             return redirect(url_for('main.index'))
     return render_template('login.html', form=form)
@@ -122,7 +117,7 @@ def search_menu():
 
 @app.route('/recipes/update/<int:id>', methods=['GET', 'POST'])
 @login_required
-def update_recipe(id):  # requires admin
+def update_recipe(id): # requires admin
     if not current_user.admin:
         return 'Access Denied', 403
 
@@ -146,7 +141,7 @@ def update_recipe(id):  # requires admin
 
 @app.route('/recipes/create', methods=['GET', 'POST'])
 @login_required
-def create_recipe():  # requires admin
+def create_recipe(): # requires admin
     if not current_user.admin:
         return 'Access Denied', 403
 
@@ -180,7 +175,7 @@ def create_recipe():  # requires admin
 @app.route('/recipes/delete/<int:id>', methods=['GET', 'POST'])
 @app.route('/recipes/delete', methods=['GET', 'POST'])
 @login_required
-def delete_recipe(id=None):  # requires admin
+def delete_recipe(id=None): # requires admin
     if not current_user.admin:
         return 'Access Denied', 403
 
@@ -217,7 +212,6 @@ def delete_recipe(id=None):  # requires admin
                     print(f"Error occurred during deletion: {e}")
                     return 'An error occurred while deleting the recipes.', 500
 
-    # Refresh menu with pagination after deletion
     form = MenuSearchForm()
     page = request.args.get('page', 1, type=int)
     pagination = MysticBurger.query.paginate(page=page, per_page=10)
@@ -226,8 +220,6 @@ def delete_recipe(id=None):  # requires admin
                            pagination=pagination,
                            current_page=page,
                            total_pages=pagination.pages)
-
-# Cart
 
 
 @app.route('/cart')

@@ -19,7 +19,7 @@ def update_user_admin(user_id, is_admin):
 if __name__ == '__main__':
     user_id_to_update = input("Enter the user ID you want to update: ")
     is_admin_input = input("Set admin status (True/False): ")
-    is_admin = is_admin_input.lower() == 'true'  # Convert input to boolean
+    is_admin = is_admin_input.lower() == 'true' 
 
     with app.app_context():
         update_user_admin(user_id_to_update, is_admin)

@@ -1,6 +1,6 @@
 # Sprint Planning
 
-Date/Time: 12/5/24
+Date/Time: 12/6/24
 
 Participants: Full group
 

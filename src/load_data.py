@@ -8,27 +8,15 @@ app = create_app()
 
 
 def load_data():
-    # Read the CSV file
-    df = pd.read_csv('/app/Database/mysticburgers.csv')  # Updated path
-
-    # Clean up column names
+    df = pd.read_csv('/app/Database/mysticburgers.csv')
     df.columns = df.columns.str.strip()
-
-    # Convert 'Magic' column to boolean
     df['Magic'] = df['Magic'].astype(bool)
-
-    # Print the columns to verify
     print(df.columns)
-
-    # Clear existing data
     with app.app_context():
-        # Create the database schema
         db.create_all()
-
         db.session.query(MysticBurger).delete()
         db.session.commit()
 
-        # Insert new data
         for index, row in df.iterrows():
             burger = MysticBurger(
                 store=row['Store'],
@@ -41,13 +29,11 @@ def load_data():
             )
             db.session.add(burger)
 
-        # Delete all previous users
         print("Deleting all users...")
         db.session.query(User).delete()
         db.session.commit()
         print("All users deleted.")
 
-        # Create admin user
         print("Creating admin user...")
         admin_user = User(
             id='admin',

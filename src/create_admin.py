@@ -10,7 +10,6 @@ db = SQLAlchemy(app)
 
 # hardcodes admin user ID:admin PW:admin
 
-
 def create_admin_user():
     admin_user = User.query.filter_by(id='admin').first()
     if not admin_user:
