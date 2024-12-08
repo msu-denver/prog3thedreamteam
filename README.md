@@ -51,12 +51,32 @@ This section should describe, in general terms, how Scrum was used in this proje
 |Sprint#|Goals|Start|End|Done|Observations|
 ![pics/testing.png](pics/testing.png)
 
-
-As in Project 2, you should take notes on the major sprint meetings: planning, daily scrums, review, and retrospective. Use the scrum folder and the shared templates to record your notes.
-
 # Testing 
 
-In this section, share the results of the tests performed to verify the quality of the developed product, including the test coverage in relation to the written code. There is no minimum code coverage requirement, but ensure there is at least some coverage through one white-box test and one black-box test.
+blackwhitetesting.png
+![pics/blackwhitetesting.png](pics/blackwhitetesting.png)
+
+Name: Black-box Test     Stmts   Miss  Cover
+-------------------------------------------
+src/app/__init__.py        29      6    79%
+src/app/extensions.py       4      0   100%
+src/app/forms.py           53      0   100%
+src/app/models.py          42      5    88%
+src/app/routes.py         174    133    24%
+tests/blackbox.py          59     47    20%
+-------------------------------------------
+TOTAL                     361    191    47%
+
+Name: White-box Test     Stmts   Miss  Cover
+-------------------------------------------
+src/app/__init__.py        29      6    79%
+src/app/extensions.py       4      0   100%
+src/app/forms.py           53      0   100%
+src/app/models.py          42      5    88%
+src/app/routes.py         174    133    24%
+tests/whitebox.py           6      3    50%
+-------------------------------------------
+TOTAL                     308    147    52%
 
 # Deployment 
 
