@@ -1,0 +1,19 @@
+@startuml sequencediagram
+
+actor Customer
+participant Menu
+participant MenuItem
+participant Cart
+
+Customer -> Menu: browseMenu()
+Menu -> MenuItem: displayItems()
+MenuItem -> Menu: returnItems()
+Customer -> Menu: addToCart(MenuItem)
+Menu -> Cart: addItem(MenuItem)
+Cart -> Menu: updateCart()
+Customer -> Menu: removeFromCart(MenuItem)
+Menu -> Cart: removeItem(MenuItem)
+Cart -> Menu: updateCart()
+
+@enduml
+
